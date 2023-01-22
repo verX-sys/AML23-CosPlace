@@ -90,6 +90,7 @@ val_ds = TestDataset(args.val_set_folder, positive_dist_threshold=args.positive_
 logging.info(f"Validation set: {val_ds}")
 
 
+
 if args.augmentation_device == "cuda":
     gpu_augmentation = T.Compose([
             augmentations.DeviceAgnosticColorJitter(brightness=args.brightness,
@@ -98,6 +99,10 @@ if args.augmentation_device == "cuda":
                                                     hue=args.hue),
             augmentations.DeviceAgnosticRandomResizedCrop([512, 512],
                                                           scale=[1-args.random_resized_crop, 1]),
+                                                          T.RandomHorizontalFlip(p=args.hflip),
+                                                          T.GaussianBlur(p=args.gblur,kernel_size=1,sigma=(0.1,2.0)),
+                                                          T.RandomGrayscale(p=args.rgrayscale),
+                                                          T.RandomErasing(p=args.rerasings, scale=(0.02, 0.25), ratio=(0.3, 3.3), value=0, inplace=False),
             T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ])
 
