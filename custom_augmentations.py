@@ -1,6 +1,6 @@
 import torch
 from torch import Tensor
-from torchvision.transforms.transforms import functional as F
+from torchvision.transforms import functional as F
 import numbers
 from collections.abc import Sequence
 
